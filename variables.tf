@@ -24,6 +24,12 @@ variable "TALOS_ISO" {
   type        = string
 }
 
+variable "CLUSTER_NAME" {
+  description = "Cluster name, as prefix"
+  type        = string
+  default     = "talos"
+}
+
 variable "CONTROL_PLANE_CONFIG" {
   description = "Kubernetes master config"
   type = object({

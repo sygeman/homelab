@@ -1,5 +1,5 @@
 resource "proxmox_vm_qemu" "talos-control-plane" {
-  name        = "talos-control-plane"
+  name        = "${var.CLUSTER_NAME}-control-plane"
   target_node = var.TARGET_NODE
   memory      = var.CONTROL_PLANE_CONFIG.memory
   cores       = var.CONTROL_PLANE_CONFIG.cores
@@ -32,7 +32,7 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
 resource "proxmox_vm_qemu" "talos-worker" {
   count = var.WORKER_CONFIG.count
 
-  name        = "talos-worker-${count.index + 1}"
+  name        = "${var.CLUSTER_NAME}-worker-${count.index + 1}"
   target_node = var.TARGET_NODE
   memory      = var.WORKER_CONFIG.memory
   cores       = var.WORKER_CONFIG.cores
