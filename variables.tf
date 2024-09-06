@@ -1,68 +1,51 @@
-variable "PROXMOX_API_ENDPOINT" {
-  description = "API endpoint for proxmox"
-  type        = string
-}
-
-variable "PROXMOX_USERNAME" {
-  description = "User name used to login proxmox"
-  type        = string
-}
-
-variable "PROXMOX_PASSWORD" {
-  description = "Password used to login proxmox"
-  type        = string
-}
-
-variable "TARGET_NODE" {
-  description = "Target node name in proxmox"
-  type        = string
-  default     = "pmx"
-}
-
-variable "TALOS_ISO" {
-  description = "Talos iso path"
-  type        = string
-}
-
-variable "CLUSTER_NAME" {
-  description = "Cluster name, as prefix"
-  type        = string
-  default     = "talos"
-}
-
-variable "CONTROL_PLANE_CONFIG" {
-  description = "Kubernetes master config"
+variable "proxmox" {
   type = object({
-    memory = string
-    cores  = number
-    size   = string
+    endpoint = string
+    username = string
+    password = string
   })
 }
 
-variable "WORKER_CONFIG" {
-  description = "Kubernetes worker config"
-  type = object({
-    count  = number
-    memory = string
-    cores  = number
-    size   = string
-  })
+variable "target_node" {
+  type    = string
+  default = "pmx"
 }
 
 variable "storage" {
-  description = "Storage type"
-  type        = string
-  default     = "local-zfs"
+  type    = string
+  default = "local-zfs"
 }
 
-variable "network" {
-  description = "Network config"
+variable "cluster_name" {
+  type    = string
+  default = "talos"
+}
+
+variable "talos_version" {
+  type    = string
+  default = "v1.7.6"
+}
+
+variable "default_gateway" {
+  type    = string
+  default = "192.168.88.1"
+}
+
+variable "cp_config" {
   type = object({
-    bridge = string
-    model  = string
+    memory   = number
+    cores    = number
+    size     = number
+    first_ip = string
   })
-  default = {
-    bridge = "vmbr0"
-    model  = "virtio"
-  }
+}
+
+variable "worker_config" {
+  type = object({
+    count    = number
+    memory   = number
+    cores    = number
+    size     = number
+    first_ip = string
+  })
 }

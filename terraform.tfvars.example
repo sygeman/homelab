@@ -1,18 +1,20 @@
-PROXMOX_API_ENDPOINT = "https://192.168.88.100:8006/api2/json"
-PROXMOX_USERNAME     = "root"
-PROXMOX_PASSWORD     = "password"
-
-TALOS_ISO = "local:iso/talos-1.7.6.iso"
-
-CONTROL_PLANE_CONFIG = {
-  memory = "4096"
-  cores  = 4
-  size   = "100G"
+proxmox = {
+  endpoint = "https://192.168.88.12:8006/api2/json"
+  username = "root"
+  password = "123"
 }
 
-WORKER_CONFIG = {
-  count  = 3
-  memory = "4096"
-  cores  = 2
-  size   = "500G"
+cp_config = {
+  memory   = 4096
+  cores    = 4
+  size     = 100
+  first_ip = "192.168.88.101"
+}
+
+worker_config = {
+  count    = 3
+  memory   = 4096
+  cores    = 2
+  size     = 500
+  first_ip = "192.168.88.201"
 }
