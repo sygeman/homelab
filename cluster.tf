@@ -1,8 +1,7 @@
 resource "talos_machine_secrets" "machine_secrets" {}
 
 locals {
-  cp_ip     = "${var.base_machine_ip}${var.cp_config.first_ip}"
-  worker_ip = "${var.base_machine_ip}${var.worker_config.first_ip}"
+  cp_ip = "${var.base_machine_ip}${var.cp_config.first_ip}"
 }
 
 data "talos_client_configuration" "talosconfig" {
@@ -37,8 +36,8 @@ resource "talos_machine_configuration_apply" "worker_config_apply" {
   depends_on                  = [proxmox_virtual_environment_vm.talos_worker]
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_worker.machine_configuration
-  count                       = 1
-  node                        = local.worker_ip
+  count                       = var.worker_config.count
+  node                        = "${var.base_machine_ip}${var.worker_config.first_ip + count.index}"
 }
 
 resource "talos_machine_bootstrap" "bootstrap" {
@@ -51,7 +50,7 @@ data "talos_cluster_health" "health" {
   depends_on           = [talos_machine_configuration_apply.cp_config_apply, talos_machine_configuration_apply.worker_config_apply]
   client_configuration = data.talos_client_configuration.talosconfig.client_configuration
   control_plane_nodes  = [local.cp_ip]
-  worker_nodes         = [local.worker_ip]
+  worker_nodes         = [for i in range(var.worker_config.count) : "${var.base_machine_ip}${var.worker_config.first_ip + i}"]
   endpoints            = data.talos_client_configuration.talosconfig.endpoints
 }
 
