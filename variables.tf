@@ -31,12 +31,17 @@ variable "default_gateway" {
   default = "192.168.88.1"
 }
 
+variable "base_machine_ip" {
+  type    = string
+  default = "192.168.88."
+}
+
 variable "cp_config" {
   type = object({
     memory   = number
     cores    = number
     size     = number
-    first_ip = string
+    first_ip = number
   })
 }
 
@@ -46,6 +51,6 @@ variable "worker_config" {
     memory   = number
     cores    = number
     size     = number
-    first_ip = string
+    first_ip = number
   })
 }

@@ -8,13 +8,13 @@ cp_config = {
   memory   = 4096
   cores    = 4
   size     = 100
-  first_ip = "192.168.88.101"
+  first_ip = 101
 }
 
 worker_config = {
-  count    = 3
+  count    = 1
   memory   = 4096
   cores    = 2
   size     = 500
-  first_ip = "192.168.88.201"
+  first_ip = 201
 }

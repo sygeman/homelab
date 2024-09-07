@@ -1,5 +1,7 @@
-resource "proxmox_virtual_environment_vm" "talos_cp_01" {
-  name      = "${var.cluster_name}-cp-01"
+resource "proxmox_virtual_environment_vm" "talos_cp" {
+  count = 1
+
+  name      = "${var.cluster_name}-cp-${count.index + 1}"
   tags      = [var.cluster_name]
   node_name = var.target_node
   on_boot   = true
@@ -37,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
     datastore_id = var.storage
     ip_config {
       ipv4 {
-        address = "${var.cp_config.first_ip}/24"
+        address = "${var.base_machine_ip}${var.cp_config.first_ip + count.index}/24"
         gateway = var.default_gateway
       }
       ipv6 {
@@ -47,9 +49,11 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
   }
 }
 
-resource "proxmox_virtual_environment_vm" "talos_worker_01" {
-  depends_on = [proxmox_virtual_environment_vm.talos_cp_01]
-  name       = "${var.cluster_name}-worker-01"
+resource "proxmox_virtual_environment_vm" "talos_worker" {
+  count = var.worker_config.count
+
+  depends_on = [proxmox_virtual_environment_vm.talos_cp]
+  name       = "${var.cluster_name}-worker-${count.index + 1}"
   tags       = [var.cluster_name]
   node_name  = var.target_node
   on_boot    = true
@@ -87,7 +91,7 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
     datastore_id = var.storage
     ip_config {
       ipv4 {
-        address = "${var.worker_config.first_ip}/24"
+        address = "${var.base_machine_ip}${var.worker_config.first_ip + count.index}/24"
         gateway = var.default_gateway
       }
       ipv6 {
