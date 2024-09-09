@@ -1,10 +1,19 @@
 # talos-cluster
 
 ## Terraform
+Копируем переменные и заполняем
+```bash
 cp terraform.tfvars.example terraform.tfvars
+```
 
+Ставим зависимости
+```bash
 terraform init -upgrade        
-terraform apply --auto-approve
+```
 
-terraform output -raw kubeconfig
-terraform output -raw talosconfig
+Разворачиваем все
+```bash
+terraform apply --auto-approve
+```
+
+K8s конфиг будет доступен в **output/.kubeconfig**
