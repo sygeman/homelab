@@ -69,3 +69,8 @@ output "kubeconfig" {
   value     = data.talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
   sensitive = true
 }
+
+resource "local_file" "kubeconfig" {
+  content  = data.talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  filename = "${path.module}/output/.kubeconfig"
+}
